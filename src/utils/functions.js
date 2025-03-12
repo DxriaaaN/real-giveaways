@@ -8,6 +8,7 @@ const { Client } = require("discord.js");
  * @returns {import("../types").fetchGCMReturnType}
  */
 async function fetchGCM(client, giveaways, messageId) {
+  try{
   const giveaway = giveaways.find((g) => g.messageId === messageId);
   if (!giveaway) return;
 
@@ -26,6 +27,10 @@ async function fetchGCM(client, giveaways, messageId) {
   ]);
 
   return { guild, channel, message };
+  }catch(error) {
+    console.error("Error in fetchGCM", error);
+    throw error;
+  }
 }
 
 async function editEmbed(message, giveawaydata, embed) {
@@ -39,7 +44,8 @@ async function editEmbed(message, giveawaydata, embed) {
       components: [],
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in editEmbed", error);
+    throw error;
   }
 }
 
@@ -61,6 +67,7 @@ function createGiveaway(data) {
 }
 
 function deepEqual(a, b) {
+  try{
   // If a and b are identical, return true
   if (a === b) return true;
 
@@ -84,6 +91,10 @@ function deepEqual(a, b) {
     }
 
     return true;
+  } catch (error) {
+    console.error("Error in deepEqual",error);
+    throw error;
+    }
   }
 
   // If a and b are of the same type and not objects or arrays, compare them directly
